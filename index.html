@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<script type="text/javascript" src="js/jquery-1.11.3.js" ></script>
+		<title>在线考勤管理系统-登录</title>
+		<style type="text/css">
+			body,ul,li,p{margin: 0;padding: 0;}
+			div#container{
+				width: 330px;
+				margin: 10px auto;
+				text-align: center;
+			}
+			
+			p.inp{
+				position: relative;
+			}
+			
+			input{
+				width: 100%;
+				height: 40px;
+				margin-bottom: 20px;
+				padding-left: 40px;
+			}
+			
+			p.inp>i.input_img{
+				background: red;
+				display: inline-block;
+				width: 32px;
+				height: 32px;
+				position: absolute;
+				top: 5px;
+				left: 4px;
+			}
+			
+			p.btns{
+				width: 100%;
+				display: flex;
+				justify-content: space-around;
+			}
+			
+			button{
+				padding: 12px;
+				border-radius: 6px;
+			}
+		</style>
+	</head>
+	<body>
+		<div id="container">
+			<div class="form_box">
+				<p class="inp">
+					<input type="text" name="uname" id="uname" placeholder="请输入用户名" />
+					<i class="input_img"></i>
+				</p>
+				<p class="inp">
+					<input type="password" name="upwd" id="upwd" placeholder="请输入密码" />
+					<i class="input_img"></i>
+				</p>
+				<p class="btns">
+					<button id="bt_login">登录</button>
+					<button id="bt_console">管理</button>
+				</p>
+			</div>
+		</div>
+		
+		
+		<script type="text/javascript">
+		
+			/*
+			 	点击登录按钮
+			*/
+			$("#bt_login").on("click",function(){
+				var uname=$("#uname").val();
+				var upwd=$("#upwd").val();
+
+				//验证账号、密码,如果正确，跳转到打卡页面
+				yanzheng(uname,upwd,"daka.php");
+				
+			});
+			
+			$("#bt_console").on("click",function(){
+				var uname=$("#uname").val();
+				var upwd=$("#upwd").val();
+
+				//验证账号、密码,如果是管理员，跳转到控制台
+				yanzheng(uname,upwd,"console.php");
+			});
+			
+			
+			
+			
+			function yanzheng(uname,upwd,gourl){
+				jQuery.ajax({
+					url:"./data/yanzheng.php",
+					type:"get",
+					async:true,
+					data:{
+						uname:uname,
+						upwd:upwd						
+					},
+					dataType:'text',
+					success:function(data){
+						if(data=="ok"){
+							var url = gourl+"?uname="+uname;
+				
+							window.location.href= url;
+						}else{
+							alert("账号或密码错误！");
+						}
+						
+
+					},
+					error:function(data){
+						alert("出现错误！");
+					}
+				});
+			}
+			
+			
+		</script>
+	</body>
+</html>
